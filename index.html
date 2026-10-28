@@ -326,12 +326,26 @@ $("send").onclick=function(){
  var name=$("name").value.trim(),tel=$("tel").value.trim(),pick=$("type").value=="pickup",addr=$("addr").value.trim();
  if(!name||!tel){toast("Укажите имя и телефон");return}
  if(!pick&&!addr){toast("Укажите адрес доставки");return}
- var txt="Новый заказ Gala Sushi & Pizza\n\n"+r.ids.map(function(k){var it=find(k);return "• "+it.n+" × "+cart[k]+" = "+fmt(it.p*cart[k])}).join("\n")
-  +"\n\nСумма заказа: "+fmt(r.sum)+(pick?"":"\nДоставка ("+ZONES[+$("zone").value][0]+"): "+(r.dv?fmt(r.dv):"бесплатно"))+"\nИтого: "+fmt(r.sum+r.dv)+"\nИмя: "+name+"\nТелефон: "+tel+"\n"+(pick?"Самовывоз":"Адрес: "+addr)
-  +($("cmt").value.trim()?"\nКомментарий: "+$("cmt").value.trim():"");
- try{navigator.clipboard.writeText(txt)}catch(e){}
- var wa="https://wa.me/"+CFG.whatsapp+"?text="+encodeURIComponent(txt);window.open(wa,"_blank");
- $("msg").innerHTML='Заказ готов. Если WhatsApp не открылся, <a href="'+wa+'" target="_blank" rel="noopener" style="color:var(--ac);font-weight:700">нажмите сюда</a> или позвоните: '+CFG.phoneShow;
+ var L=[];
+ L.push("👋 Здравствуйте! Вас приветствует *Gala Sushi & Pizza* 🍣🍕");
+ L.push("Ваш заказ с сайта:");
+ L.push("━━━━━━━━━━━━━━");
+ r.ids.forEach(function(k){var it=find(k);L.push("🔸 "+it.n+" × "+cart[k]+" — "+fmt(it.p*cart[k]))});
+ L.push("━━━━━━━━━━━━━━");
+ L.push("🧾 Сумма заказа: "+fmt(r.sum));
+ if(!pick)L.push("🚚 Доставка ("+ZONES[+$("zone").value][0]+"): "+(r.dv?fmt(r.dv):"бесплатно"));
+ L.push("💰 *Итого: "+fmt(r.sum+r.dv)+"*");
+ L.push("");
+ L.push("👤 Имя: "+name);
+ L.push("📞 Телефон: "+tel);
+ L.push(pick?"🏪 Самовывоз":"📍 Адрес: "+addr);
+ if($("cmt").value.trim())L.push("💬 Комментарий: "+$("cmt").value.trim());
+ L.push("");
+ L.push("Спасибо за заказ! Ждём подтверждения 🙏");
+ var txt=L.join("\n");
+ var wa="https://wa.me/"+CFG.whatsapp+"?text="+encodeURIComponent(txt);
+ $("msg").innerHTML='Открываем WhatsApp… Если не открылся, <a href="'+wa+'" style="color:var(--ac);font-weight:700">нажмите сюда</a> или позвоните: '+CFG.phoneShow;
+ window.location.href=wa;
  cart={};render();
 };
 $("toMenu").onclick=function(){$("menu").scrollIntoView({behavior:"smooth",block:"start"})};
