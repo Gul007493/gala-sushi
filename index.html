@@ -24,7 +24,7 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var
 .tab.on{background:var(--ac);color:#fff;border-color:var(--ac)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;padding:6px 16px 30px;max-width:1100px;margin:auto}
 .item{background:var(--card);border:1px solid var(--bd);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
-.ph{aspect-ratio:640/366;display:grid;place-items:center;font-size:56px;background:var(--ac2);overflow:hidden}.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.grid.pz .ph{aspect-ratio:4/3}.grid.st .ph{aspect-ratio:1/1}.grid.dr .ph{aspect-ratio:4/5}.ups{margin:16px 0 6px}.ups h4{margin:0 0 8px;font-size:15px}.ups .ur{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;scrollbar-width:thin}.uc{flex:0 0 118px;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:6px;display:flex;flex-direction:column;gap:4px}.uc .uh{width:100%;aspect-ratio:1/1;border-radius:8px;overflow:hidden;background:var(--ac2);display:grid;place-items:center;font-size:30px}.uc img{width:100%;height:100%;object-fit:cover;display:block}.uc span{font-size:12px;line-height:1.25;min-height:30px}.uc button{background:var(--ac);color:#fff;border:0;border-radius:8px;padding:6px 4px;font:600 12px inherit;font-family:inherit;cursor:pointer}.ph{aspect-ratio:640/366;display:grid;place-items:center;font-size:56px;background:var(--ac2);overflow:hidden}.ph img{width:100%;height:100%;object-fit:cover;display:block}
 .ib{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
 .ib h3{margin:0;font-size:17px}.ib small{color:var(--mut)}
 .row{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:6px}
@@ -73,7 +73,7 @@ header{padding:8px 12px;gap:8px;height:56px}
 .tab{padding:9px 14px;font-size:15px}
 .grid{grid-template-columns:1fr;gap:10px;padding:4px 12px 24px}
 .item{flex-direction:row}
-.ph{width:124px;aspect-ratio:auto;min-height:100px;font-size:30px;flex-shrink:0}
+.grid.pz .ph{aspect-ratio:auto;min-height:112px}.grid.st .ph{aspect-ratio:auto;min-height:112px}.grid.dr .ph{aspect-ratio:auto;min-height:112px}.ph{width:124px;aspect-ratio:auto;min-height:100px;font-size:30px;flex-shrink:0}
 .ib{padding:10px 12px}.ib h3{font-size:15px}.ib small{font-size:13px}
 .row .btn{padding:8px 12px;min-height:40px;font-size:14px}
 .info{grid-template-columns:1fr;padding:6px 12px 96px}
@@ -118,6 +118,7 @@ input,textarea,select{font-size:16px;padding:12px}
   <div class="ah"><span>Ваш заказ</span><button class="x" id="close" aria-label="Закрыть">×</button></div>
   <div class="ab">
     <div id="lines"></div>
+    <div id="ups" class="ups"></div>
     <form id="f" onsubmit="return false">
       <input id="name" placeholder="Ваше имя" autocomplete="name">
       <input id="tel" placeholder="Телефон" inputmode="tel" autocomplete="tel">
@@ -149,46 +150,46 @@ var CFG={
   currency:"₸",
   whatsapp:"77083666705"
 };
-var PH={"Удон с курицей": "images/udon-s-kuritsey.jpg", "Соба с курицей": "images/soba-s-kuritsey.jpg", "Соба с морепродуктами": "images/soba-s-moreproduktami.jpg", "Удон с говядиной": "images/udon-s-govyadinoy.jpg", "Удон с морепродуктами": "images/udon-s-moreproduktami.jpg", "Курица карри с рисом": "images/kuritsa-karri-s-risom.jpg", "Куриное филе с соусом дор-блю и картофельными дольками": "images/kurinoe-file-s-sousom-dor-blyu-i-kartofelnymi-dolk.jpg", "Жареный картофель с грибами и сливками": "images/zharenyy-kartofel-s-gribami-i-slivkami.jpg", "Греческий": "images/grecheskiy.jpg", "Цезарь с креветками": "images/tsezar-s-krevetkami.jpg", "Цезарь с курицей": "images/tsezar-s-kuritsey.jpg", "Цезарь с лососем": "images/tsezar-s-lososem.jpg", "Лапша с курицей": "images/lapsha-s-kuritsey.jpg", "Том-ям с морепродуктами": "images/tom-yam-s-moreproduktami.jpg", "Аризона": "images/arizona.jpg", "Жареный с курицей": "images/zharenyy-s-kuritsey.jpg", "Жареный с лососем": "images/zharenyy-s-lososem.jpg", "Фила темпура": "images/fila-tempura.jpg", "Жареный с угрём": "images/zharenyy-s-ugrem.jpg", "Курица с томатами": "images/kuritsa-s-tomatami.jpg", "Маргарита": "images/margarita.jpg", "Пицца с морепродуктами": "images/pitstsa-s-moreproduktami.jpg", "По-фински": "images/po-finski.jpg", "Пепперони": "images/pepperoni.jpg", "Ветчина с грибами": "images/vetchina-s-gribami.jpg", "Гавайская": "images/gavayskaya.jpg", "Жульен": "images/zhulen.jpg", "Охотничья с корнишонами": "images/ohotnichya-s-kornishonami.jpg", "Палермо": "images/palermo.jpg", "Пять сыров": "images/pyat-syrov.jpg", "Мексиканская": "images/meksikanskaya.jpg", "Комбо 3 пиццы": "images/kombo-3-pitstsy.jpg"};
+var PH={"Удон с курицей": "images/udon-s-kuritsey.jpg", "Соба с курицей": "images/soba-s-kuritsey.jpg", "Соба с морепродуктами": "images/soba-s-moreproduktami.jpg", "Удон с говядиной": "images/udon-s-govyadinoy.jpg", "Удон с морепродуктами": "images/udon-s-moreproduktami.jpg", "Курица карри с рисом": "images/kuritsa-karri-s-risom.jpg", "Куриное филе с соусом дор-блю и картофельными дольками": "images/kurinoe-file-s-sousom-dor-blyu-i-kartofelnymi-dolk.jpg", "Жареный картофель с грибами и сливками": "images/zharenyy-kartofel-s-gribami-i-slivkami.jpg", "Греческий": "images/grecheskiy.jpg", "Цезарь с креветками": "images/tsezar-s-krevetkami.jpg", "Цезарь с курицей": "images/tsezar-s-kuritsey.jpg", "Цезарь с лососем": "images/tsezar-s-lososem.jpg", "Лапша с курицей": "images/lapsha-s-kuritsey.jpg", "Том-ям с морепродуктами": "images/tom-yam-s-moreproduktami.jpg", "Аризона": "images/arizona.jpg", "Жареный с курицей": "images/zharenyy-s-kuritsey.jpg", "Жареный с лососем": "images/zharenyy-s-lososem.jpg", "Фила темпура": "images/fila-tempura.jpg", "Жареный с угрём": "images/zharenyy-s-ugrem.jpg", "Курица с томатами": "images/kuritsa-s-tomatami.jpg", "Маргарита": "images/margarita.jpg", "Пицца с морепродуктами": "images/pitstsa-s-moreproduktami.jpg", "По-фински": "images/po-finski.jpg", "Пепперони": "images/pepperoni.jpg", "Ветчина с грибами": "images/vetchina-s-gribami.jpg", "Гавайская": "images/gavayskaya.jpg", "Жульен": "images/zhulen.jpg", "Охотничья с корнишонами": "images/ohotnichya-s-kornishonami.jpg", "Палермо": "images/palermo.jpg", "Пять сыров": "images/pyat-syrov.jpg", "Мексиканская": "images/meksikanskaya.jpg", "Комбо 3 пиццы": "images/kombo-3-pitstsy.jpg", "Студенческая": "images/studencheskaya.jpg", "Цыплёнок BBQ": "images/tsyplenok-bbq.jpg", "Цезарь пицца": "images/tsezar-pitstsa.jpg", "Сырный цыплёнок": "images/syrnyy-tsyplenok.jpg", "Калифорния с крабом": "images/kaliforniya-s-krabom.jpg", "Калифорния с лососем": "images/kaliforniya-s-lososem.jpg", "Калифорния с угрём": "images/kaliforniya-s-ugrem.jpg", "Ролл Краб": "images/roll-krab.jpg", "Жареный спайси": "images/zharenyy-spaysi.jpg", "Лёгкий с лососем": "images/lyogkiy-s-lososem.jpg", "Сяке терияки": "images/syake-teriyaki.jpg", "Запечённый с угрём": "images/zapechennyy-s-ugrem.jpg", "Гала": "images/gala.jpg", "Кани": "images/kani.jpg", "Тортилья с лососем": "images/tortilya-s-lososem.jpg", "Филадельфия икура": "images/filadelfiya-ikura.jpg", "Филадельфия классик": "images/filadelfiya-klassik.jpg", "Филадельфия с огурцом": "images/filadelfiya-s-ogurtsom.jpg", "Ролл Чука": "images/roll-chuka.jpg", "Ролл Яссай": "images/roll-yassay.jpg", "Лёгкий с огурцом": "images/lyogkiy-s-ogurtsom.jpg", "Лёгкий с угрём": "images/lyogkiy-s-ugrem.jpg", "Сет Калифорния 40 шт": "images/set-kaliforniya-40.jpg", "Сет Лёгкий 40 шт": "images/set-lyogkiy-40.jpg", "Сет Люкс 40 шт": "images/set-lyuks-40.jpg", "На двоих №2": "images/na-dvoih-2.jpg", "На одного 20 шт": "images/na-odnogo-20.jpg", "Сет Популярный 40 шт": "images/set-populyarnyy-40.jpg", "Самурай 40 шт": "images/samuray-40.jpg", "Филадельфия 40 шт": "images/filadelfiya-40.jpg", "Фирменный 40 шт": "images/firmennyy-40.jpg", "Великан 120 шт": "images/velikan-120.jpg", "Жареный 40 шт": "images/zharenyy-40.jpg", "Сет Забирай 55 шт": "images/set-zabiray-55.jpg", "Ассорти 60 шт": "images/assorti-60.jpg", "Мажор 60 шт": "images/mazhor-60.jpg", "Фетучини Альфредо": "images/fetuchini-alfredo.jpg", "Бефстроганов с картофелем фри": "images/befstroganov-s-kartofelem-fri.jpg", "Wok с говядиной": "images/wok-s-govyadinoy.jpg", "Wok с курицей": "images/wok-s-kuritsey.jpg", "Говядина по-корейски с рисом": "images/govyadina-po-koreyski-s-risom.jpg", "Жареный картофель с охотничьими колбасками": "images/zharenyy-kartofel-s-ohotnichimi-kolbaskami.jpg", "Рамён с лососем": "images/ramyon-s-lososem.jpg", "Соба с говядиной": "images/soba-s-govyadinoy.jpg", "Сырные палочки со сметаной": "images/syrnye-palochki.jpg", "Наггетсы с соусом спайси": "images/naggetsy-spaysi.jpg", "Гренки чесночные": "images/grenki-chesnochnye.jpg", "Стрипсы 3 шт": "images/strips-3.jpg", "Стрипсы 5 шт": "images/strips-5.jpg", "Стрипсы 14 шт": "images/strips-14.jpg", "Стрипсы 24 шт": "images/strips-24.jpg", "Крыло 200 г": "images/krylo-200.jpg", "Крыло 500 г": "images/krylo-500.jpg", "Крыло 1 кг": "images/krylo-1kg.jpg", "Чикен ролл": "images/chiken-roll.jpg", "Картофель фри": "images/kartofel-fri.jpg", "Картофельные дольки": "images/kartofelnye-dolki.jpg", "Луковые кольца": "images/lukovye-koltsa.jpg", "Комбо 1": "images/kombo-1.jpg", "Комбо 2": "images/kombo-2.jpg", "Комбо 3": "images/kombo-3.jpg", "Салат с курицей и ананасами": "images/salat-s-kuritsey-i-ananasami.jpg", "Pepsi 1 л": "images/pepsi.jpg", "Mirinda 1 л": "images/mirinda.jpg", "Сок DaDa в ассортименте 1 л": "images/sok-dada.jpg", "Детский сок DaDa": "images/detskiy-sok.jpg"};
 var RAW=[
-["Роллы","🍣",`Гала|2905
+["Роллы","🍣",`Гала|2905|крем чиз, нори, огурцы, копчёный лосось, рис
 Сяке терияки|1500
-Лёгкий с лососем|2360
-Лёгкий с угрём|2360
-Лёгкий с огурцом|1155
-Ролл Чука|1540
+Лёгкий с лососем|2360|лосось, нори, рис
+Лёгкий с угрём|2360|угорь, кунжут, нори, терияки, рис
+Лёгкий с огурцом|1155|кунжут, нори, огурцы, рис
+Ролл Чука|1540|чука, нори, рис
 Ролл Эби Темпура|2050
-Ролл Яссай|1010
-Ролл Краб|1115
-Ролл Киото|2420
-Кани|2010
+Ролл Яссай|1010|капуста, нори, огурцы, болгарский перец, помидоры, рис
+Ролл Краб|1115|крабовое мясо, нори, рис
+Ролл Киото|2420|нори, терияки, рис, сырный для шапок, кляр
+Кани|2010|крем чиз, крабовое мясо, нори, рис
 Фила темпура|2365|лосось, крем чиз, сухари панко, нори, огурцы, рис, кляр
-Филадельфия икура|3700
-Филадельфия классик|3015
-Филадельфия Люкс|3750
-Филадельфия с огурцом|3260
-Калифорния с крабом|2905
-Калифорния с лососем|3250
-Калифорния с угрём|3355
+Филадельфия икура|3700|лосось, крем чиз, масаго (икра летучей рыбы), нори, рис
+Филадельфия классик|3015|крем чиз, лосось, нори, рис
+Филадельфия Люкс|3750|лосось, крем чиз, нори, рис
+Филадельфия с огурцом|3260|лосось, крем чиз, нори, огурцы, рис
+Калифорния с крабом|2905|крем чиз, масаго (икра летучей рыбы), крабовое мясо, нори, огурцы, рис
+Калифорния с лососем|3250|лосось, крем чиз, масаго (икра летучей рыбы), нори, огурцы, рис
+Калифорния с угрём|3355|угорь, крем чиз, масаго (икра летучей рыбы), нори, огурцы, рис
 Аризона|3020|терияки, лосось, кунжут, крем чиз, сухари панко, огурцы, нори, рис, кляр
 Жареный с лососем|3135|крем чиз, лосось, сухари панко, нори, кляр, рис
 Жареный с угрём|3020|терияки, угорь, кунжут, крем чиз, сухари панко, нори, кляр, рис
 Жареный с курицей|2905|терияки, угорь, кунжут, крем чиз, сухари панко, нори, кляр, рис
-Техас|3135
-Жареный спайси|2010
-Банзай дайкон|2650
-Бонито с крабом|2235
-Бонито с лососем|2685
-Московский|3900
-Канада|3800
-Токио|2905
-Запечённый с креветками|4200
-Запечённый с лососем|3500
-Запечённый с угрём|3600
+Техас|3135|угорь, крем чиз, сухари панко, кунжут, нори, огурцы, терияки, кляр, рис
+Жареный спайси|2010|нори, лосось, спайси, кляр, рис, сухари панко
+Банзай дайкон|2650|слайсы, дайкон маринованный, крем чиз, нори, рис
+Бонито с крабом|2235|крабовое мясо, крем чиз, стружка тунца, нори, огурцы, рис
+Бонито с лососем|2685|лосось, крем чиз, стружка тунца, нори, огурцы, рис
+Московский|3900|лосось, угорь, масаго (икра летучей рыбы), крем чиз, нори, огурцы, рис
+Канада|3800|терияки, лосось, крем чиз, угорь, кунжут, нори, огурцы, рис
+Токио|2905|крем чиз, кунжут, нори, огурцы, копчёный лосось
+Запечённый с креветками|4200|нори, креветки, сырный для шапок, рис, терияки
+Запечённый с лососем|3500|лосось, нори, рис, сырный для шапок, терияки
+Запечённый с угрём|3600|угорь, нори, сырный для шапок, рис, терияки
 Запечённый Цезарь|3000
-Тортилья с лососем|3355
-Гункан с лососем|850
-Гункан с угрём|910
+Тортилья с лососем|3355|тортилья, капуста, крем чиз, болгарский перец, огурцы, помидоры, лосось
+Гункан с лососем|850|лосось, рис, сырный для шапок, нори
+Гункан с угрём|910|угорь, сырный для шапок, рис, нори
 Суши сэндвич с сёмгой|2300
 Суши сэндвич с курицей|1650
 Суши сэндвич с крабом|1450
@@ -210,40 +211,40 @@ var RAW=[
 На двоих №2|7600|жареный с лососем, ветчина с грибами, маргарита|8635
 На одного 20 шт|3950|филадельфия 5 шт, банзай дайкон 5 шт, жареный с угрём 5 шт, жареный с лососем 5 шт|5910
 Хит продаж 40 шт|8990|Пицца пепперони, картофель фри, ролл жареный с лососем, запечённый Цезарь, Калифорния с крабом, лёгкий с угрём`],
-["Пицца","🍕",`Ветчина с грибами|3300
+["Пицца","🍕",`Ветчина с грибами|3300|моцарелла Аретал, шампиньоны, ветчина, томатный соус
 Курица с томатами|3200|помидоры, моцарелла Аретал, грудка х/к, томатный соус
 Маргарита|2200|моцарелла Аретал, помидоры, томатный соус
-Мексиканская|3100
-Охотничья с корнишонами|3400
-Палермо|3900
-Пицца с морепродуктами|5465
-По-фински|4100
-Пять сыров|3600
-Студенческая|2800
-Сырный цыплёнок|3600
-Цезарь пицца|3600
-Цыплёнок BBQ|3700
+Мексиканская|3100|мука, чили, моцарелла Аретал, халапеньо маринованный, помидоры, халал, томатный соус
+Охотничья с корнишонами|3400|охотничьи колбаски, корнишоны маринованные, моцарелла Аретал, томатный соус
+Палермо|3900|моцарелла Аретал, шампиньоны, грудка х/к, халал, томатный соус
+Пицца с морепродуктами|5465|моцарелла Аретал, маслины, лимон, соль, лосось, чёрный перец, креветки
+По-фински|4100|моцарелла Аретал, помидоры, цезарь соус, копчёный лосось
+Пять сыров|3600|моцарелла Аретал, сулугуни, крем чиз, дор блю, пармезан, томатный соус
+Студенческая|2800|томатный соус, копчёная колбаса, помидоры, сыр моцарелла
+Сырный цыплёнок|3600|сырный соус, помидоры, моцарелла Аретал, грудка х/к, томатный соус
+Цезарь пицца|3600|помидоры, моцарелла Аретал, грудка х/к, цезарь соус
+Цыплёнок BBQ|3700|моцарелла Аретал, помидоры, барбекю, мука, грудка х/к, томатный соус
 Мясной пир|3500
-Жульен|3600
+Жульен|3600|сливки, моцарелла Аретал, курица х/к, грибы
 Пепперони|3100
-Гавайская|3600
-Комбо 3 пиццы|9600||11100`],
-["Пицца 50/50","🍕",`Ветчина с грибами|3300
-Курица с томатами|3200
-Маргарита|2200
-Мексиканская|3100
-Охотничья с корнишонами|3400
-Палермо|3900
-Пицца с морепродуктами|5465
-Пять сыров|3600
-Студенческая|2800
+Гавайская|3600|сливки, моцарелла Аретал, кукуруза, курица х/к, ананас
+Комбо 3 пиццы|9600|пепперони, маргарита, ветчина с грибами|11100`],
+["Пицца 50/50","🍕",`Ветчина с грибами|3300|моцарелла Аретал, шампиньоны, ветчина, томатный соус
+Курица с томатами|3200|помидоры, моцарелла Аретал, грудка х/к, томатный соус
+Маргарита|2200|моцарелла Аретал, помидоры, томатный соус
+Мексиканская|3100|мука, чили, моцарелла Аретал, халапеньо маринованный, помидоры, халал, томатный соус
+Охотничья с корнишонами|3400|охотничьи колбаски, корнишоны маринованные, моцарелла Аретал, томатный соус
+Палермо|3900|моцарелла Аретал, шампиньоны, грудка х/к, халал, томатный соус
+Пицца с морепродуктами|5465|моцарелла Аретал, маслины, лимон, соль, лосось, чёрный перец, креветки
+Пять сыров|3600|моцарелла Аретал, сулугуни, крем чиз, дор блю, пармезан, томатный соус
+Студенческая|2800|томатный соус, копчёная колбаса, помидоры, сыр моцарелла
 Мясной пир|3500
-Жульен|3600
+Жульен|3600|сливки, моцарелла Аретал, курица х/к, грибы
 Пепперони|3100
-Гавайская|3600
-По-фински|4100
-Цезарь пицца|3600
-Цыплёнок BBQ|3700`],
+Гавайская|3600|сливки, моцарелла Аретал, кукуруза, курица х/к, ананас
+По-фински|4100|моцарелла Аретал, помидоры, цезарь соус, копчёный лосось
+Цезарь пицца|3600|помидоры, моцарелла Аретал, грудка х/к, цезарь соус
+Цыплёнок BBQ|3700|моцарелла Аретал, помидоры, барбекю, мука, грудка х/к, томатный соус`],
 ["Закуски","🍟",`Сырные палочки со сметаной|1575
 Наггетсы с соусом спайси|1900
 Гренки чесночные|730
@@ -264,31 +265,35 @@ var RAW=[
 Цезарь с курицей|1925|цезарь соус, перепелиное яйцо, лист салата, помидоры, сухари для цезаря, куриное филе
 Цезарь с лососем|2765|перепелиное яйцо, лист салата, помидоры, маринованный лосось, цезарь соус, сухари для цезаря
 Цезарь с креветками|2475|листья салата, помидоры, сухарики, перепелиное яйцо, креветки, соус цезарь
-Салат с хрустящими баклажанами|2600
-Салат с курицей и ананасами|1900`],
+Салат с хрустящими баклажанами|2600|лист салата, баклажан, помидоры, грецкий орех, чесночно-медовая заправка, сыр фета
+Салат с курицей и ананасами|1900|ананас, куриное филе, кукуруза, лист салата, огурец, майонез, яйцо`],
 ["Супы","🍜",`Лапша с курицей|960|зелень, лапша домашняя, морковь, лук репчатый, соль, куриный бульон, куриное филе
-Рамён с лососем|3850
-Рамён с курицей|2765
+Рамён с лососем|3850|рамен, яйцо перепелиное, кунжут, лосось, нори, помидоры, огурцы
+Рамён с курицей|2765|куриный бульон, лапша Рамен, острые специи, микс помидора и огурца, лист нори, перепелиное яйцо, курица
 Том-ям с морепродуктами|4290|паста том-ям, кунжут, креветки, кокосовые сливки, шампиньоны, лосось, рис, кальмар`],
-["Горячее","🍲",`Фетучини Альфредо|2400
-Бефстроганов с картофелем фри|3850
-Говядина по-корейски с рисом|2900
+["Горячее","🍲",`Фетучини Альфредо|2400|сливки, курица, грибы шампиньоны, паста фетучини, базилик, соль, пармезан
+Бефстроганов с картофелем фри|3850|сливки, чёрный перец, базилик, шампиньоны, лук репчатый, соль, фри, подсолнечное масло, говядина
+Говядина по-корейски с рисом|2900|кунжут, кориандр, кинза, паприка, красный перец, лук репчатый, соль, сахар, подсолнечное масло, говядина, рис
 Жареный картофель с грибами и сливками|2050|сливки, соль, чёрный перец, картофель, шампиньоны, подсолнечное масло
-Жареный картофель с охотничьими колбасками|1400
+Жареный картофель с охотничьими колбасками|1400|зелень, чёрный перец, картофель, лук репчатый, соль, охотничьи колбаски, подсолнечное масло
 Куриное филе с соусом дор-блю и картофельными дольками|2455|сливки, картофельные дольки, чёрный перец, дор блю, соль, подсолнечное масло, куриное филе
 Курица карри с рисом|1970|сливки, карри, чёрный перец, соль, подсолнечное масло, рис, куриное филе
 Сырная лепёшка|1155`],
-["Лапша WOK","🥡",`Wok с говядиной|3020
-Wok с курицей|2210
+["Лапша WOK","🥡",`Wok с говядиной|3020|подсолнечное масло, баклажан, кунжут, чёрный перец, кунжутное масло, чеснок, болгарский перец, морковь, лук репчатый, соль, терияки, стручковая фасоль, брокколи, рис, соевый соус для суши, говядина
+Wok с курицей|2210|баклажан, кунжут, чёрный перец, кунжутное масло, чеснок, болгарский перец, морковь, лук репчатый, соль, терияки, стручковая фасоль, брокколи, подсолнечное масло, рис, соевый соус для суши, куриное филе
 Удон с говядиной|2410|баклажан, кунжут, чёрный перец, кунжутное масло, чеснок, болгарский перец, морковь, лук репчатый, соль, удон, терияки, стручковая фасоль, брокколи, подсолнечное масло, соевый соус для суши, говядина
 Удон с курицей|2290|баклажан, кунжут, чёрный перец, кунжутное масло, чеснок, болгарский перец, морковь, лук репчатый, соль, удон, терияки, стручковая фасоль, брокколи, подсолнечное масло, соевый соус для суши, куриное филе
 Удон с морепродуктами|4780|баклажан, лосось, кунжут, чёрный перец, кальмар, креветки, кунжутное масло, чеснок, болгарский перец, морковь, лук репчатый, соль, удон, терияки, стручковая фасоль, брокколи, подсолнечное масло, соевый соус для суши
-Соба с говядиной|2290
+Соба с говядиной|2290|баклажан, кунжут, чёрный перец, кунжутное масло, чеснок, болгарский перец, морковь, лук репчатый, соль, соба, терияки, стручковая фасоль, брокколи, подсолнечное масло, соевый соус для суши, говядина
 Соба с курицей|2125|баклажан, кунжут, чёрный перец, кунжутное масло, чеснок, болгарский перец, морковь, лук репчатый, соль, соба, терияки, стручковая фасоль, брокколи, подсолнечное масло, соевый соус для суши, куриное филе
 Соба с морепродуктами|4510|баклажан, лосось, кунжут, чёрный перец, кальмар, креветки, кунжутное масло, чеснок, болгарский перец, морковь, лук репчатый, соль, соба, терияки, стручковая фасоль, брокколи, подсолнечное масло, соевый соус для суши`],
 ["Комбо","🎉",`Комбо 1|3900|Стрипсы 3 шт, крыло 3 шт, фри 1 порция, пепси 1 л|4635
 Комбо 2|7500|Стрипсы 5 шт, крыло 5 шт, фри 2 порции, пепси 2 л|8900
-Комбо 3|14500|Стрипсы 14 шт, крыло 16 шт, фри 3 порции, пепси 3 л|17505`]
+Комбо 3|14500|Стрипсы 14 шт, крыло 16 шт, фри 3 порции, пепси 3 л|17505`],
+["Напитки","🥤",`Pepsi 1 л|1200
+Mirinda 1 л|1200
+Сок DaDa в ассортименте 1 л|1500
+Детский сок DaDa|550`]
 ];
 var MENU=RAW.map(function(r){return {c:r[0],e:r[1],items:r[2].split("\n").map(function(l){var p=l.split("|");return [p[0],p[2]||"",+p[1],+p[3]||0,PH[p[0]]||""]})}});
 var cart={},cat=0,$=function(i){return document.getElementById(i)};
@@ -301,8 +306,8 @@ $("callTop").href=$("phone").href="tel:"+CFG.phone;
 $("phone").textContent=CFG.phoneShow;$("phone2").href="tel:"+CFG.phone2;$("phone2").textContent=CFG.phone2Show;$("addr2").textContent=CFG.address;$("hours").textContent=CFG.hours;$("deliv").innerHTML=ZONES.map(function(z){return '<div class="zr"><span>'+z[0]+'</span><b>'+fmt(z[1])+'</b></div>'}).join("")+'<div class="dnote">От '+fmt(FREE)+' — бесплатно</div><div class="sub">Сумма заказа без учёта доставки</div>';
 $("dsub").textContent="от "+fmt(Math.min.apply(null,ZONES.map(function(z){return z[1]})))+" · бесплатно от "+fmt(FREE);
 
-function tabs(){$("tabs").innerHTML=MENU.map(function(m,i){return '<button class="tab'+(i==cat?' on':'')+'" data-i="'+i+'">'+m.e+' '+m.c+'</button>'}).join("")}
-function grid(){var m=MENU[cat];$("grid").innerHTML=m.items.map(function(it,i){var id=cat+"-"+i;
+function tabs(){var ord=MENU.map(function(m,i){return i}),di=MENU.map(function(m){return m.c}).indexOf("Напитки"),fi=MENU.map(function(m){return m.c}).indexOf("Фастфуд");if(di>-1&&fi>-1){ord.splice(di,1);ord.splice(ord.indexOf(fi)+1,0,di)}$("tabs").innerHTML=ord.map(function(i){var m=MENU[i];return '<button class="tab'+(i==cat?' on':'')+'" data-i="'+i+'">'+m.e+' '+m.c+'</button>'}).join("")}
+function grid(){var m=MENU[cat];$("grid").className="grid"+(m.c.indexOf("Пицца")===0?" pz":(m.c==="Закуски"||m.c==="Фастфуд")?" pz":(m.c==="Сеты"||m.c==="Комбо")?" st":m.c==="Напитки"?" dr":"");$("grid").innerHTML=m.items.map(function(it,i){var id=cat+"-"+i;
  return '<div class="item'+(it[1]?' has" data-d="'+id:'')+'"><div class="ph">'+(it[4]?'<img src="'+it[4]+'" alt="'+it[0].replace(/"/g,"")+'" loading="lazy">':m.e)+'</div><div class="ib"><h3>'+it[0]+'</h3><small>'+it[1]+'</small>'+(it[1]?'<span class="more">Состав ›</span>':'')+'<div class="row"><span class="price">'+(it[3]?'<span class="old">'+fmt(it[3])+'</span>':'')+fmt(it[2])+'</span><button class="btn" data-add="'+id+'">В корзину</button></div></div></div>'}).join("")}
 function find(id){var p=id.split("-");var it=MENU[p[0]].items[p[1]];return {n:it[0],p:it[2]}}
 function render(){
@@ -310,8 +315,10 @@ function render(){
  var sum=0,n=0;
  $("lines").innerHTML=ids.length?ids.map(function(k){var it=find(k),q=cart[k];sum+=it.p*q;n+=q;
   return '<div class="ci"><span>'+it.n+'<br><small style="color:var(--mut)">'+fmt(it.p)+'</small></span><span class="q"><button data-m="'+k+'">−</button><b>'+q+'</b><button data-p="'+k+'">+</button></span><b>'+fmt(it.p*q)+'</b></div>'}).join(""):'<p style="color:var(--mut)">Корзина пуста. Добавьте что-нибудь из меню 🙂</p>';
- var dv=($("type").value=="pickup"||!n||sum>=FREE)?0:ZONES[+$("zone").value][1];$("sum").textContent=fmt(sum+dv);$("dline").textContent=!n?"":$("type").value=="pickup"?"Самовывоз — бесплатно":(sum>=FREE?"Доставка: бесплатно 🎉":"Доставка: "+fmt(dv)+" · добавьте ещё "+fmt(FREE-sum)+" до бесплатной доставки");$("cnt").textContent=n;$("fbn").textContent=n;$("fbs").textContent=fmt(sum+dv);$("fb").classList.toggle("has",n>0);save();return {ids:ids,sum:sum,dv:dv};
+ var dv=($("type").value=="pickup"||!n||sum>=FREE)?0:ZONES[+$("zone").value][1];$("sum").textContent=fmt(sum+dv);$("dline").textContent=!n?"":$("type").value=="pickup"?"Самовывоз — бесплатно":(sum>=FREE?"Доставка: бесплатно 🎉":"Доставка: "+fmt(dv)+" · добавьте ещё "+fmt(FREE-sum)+" до бесплатной доставки");$("cnt").textContent=n;$("fbn").textContent=n;$("fbs").textContent=fmt(sum+dv);$("fb").classList.toggle("has",n>0);$("ups").innerHTML=n?upsHtml():"";save();return {ids:ids,sum:sum,dv:dv};
 }
+var UPS=["Pepsi 1 л","Mirinda 1 л","Сок DaDa в ассортименте 1 л","Детский сок DaDa","Наггетсы с соусом спайси","Стрипсы 3 шт","Сырные палочки со сметаной","Картофель фри","Луковые кольца","Гренки чесночные","Картофельные дольки"];
+function upsHtml(){var o=[];UPS.forEach(function(n){for(var c=0;c<MENU.length;c++)for(var i=0;i<MENU[c].items.length;i++)if(MENU[c].items[i][0]===n){var it=MENU[c].items[i],id=c+"-"+i,q=cart[id]||0;o.push('<div class="uc"><div class="uh">'+(it[4]?'<img src="'+it[4]+'" alt="" loading="lazy">':MENU[c].e)+'</div><span>'+it[0]+'</span><button data-add="'+id+'">'+(q?'В корзине: '+q+' · ':'+ ')+fmt(it[2])+'</button></div>');return}});return o.length?'<h4>Добавьте к заказу</h4><div class="ur">'+o.join("")+'</div>':""}
 function open(v){$("cart").classList.toggle("on",v);$("ov").classList.toggle("on",v)}
 
 document.addEventListener("click",function(e){var t=e.target;var cd=t.closest&&t.closest('.item[data-d]');if(cd&&!t.dataset.add){showD(cd.dataset.d);return}
