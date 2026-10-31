@@ -6,9 +6,9 @@
 <title>Gala Sushi &amp; Pizza — доставка</title>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#fff8f3;--card:#fff;--tx:#241a17;--mut:#7a6a63;--ac:#d6361f;--ac2:#ffe3dc;--bd:#eaded7;color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171210;--card:#241c19;--tx:#f6ece7;--mut:#a99a92;--ac:#ff5a40;--ac2:#3a2420;--bd:#382d29;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#171210;--card:#241c19;--tx:#f6ece7;--mut:#a99a92;--ac:#ff5a40;--ac2:#3a2420;--bd:#382d29;color-scheme:dark}
+--bg:#fff8f3;--card:#fff;--tx:#241a17;--mut:#7a6a63;--ac:#e03020;--ac2:#ffe3dc;--bd:#eaded7;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171210;--card:#241c19;--tx:#f6ece7;--mut:#a99a92;--ac:#ec3a2b;--ac2:#3a2420;--bd:#382d29;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#171210;--card:#241c19;--tx:#f6ece7;--mut:#a99a92;--ac:#ec3a2b;--ac2:#3a2420;--bd:#382d29;color-scheme:dark}
 html{scroll-padding-top:70px;scroll-behavior:smooth}
 *,*:before,*:after{box-sizing:inherit}
 body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45}
@@ -83,6 +83,7 @@ input,textarea,select{font-size:16px;padding:12px}
 #fb.has{display:flex}
 #toast{bottom:84px;max-width:90%;text-align:center}
 }
+
 </style>
 </head>
 <body>
@@ -96,7 +97,7 @@ input,textarea,select{font-size:16px;padding:12px}
   <img id="heroLogo" src="images/logo.png" alt="Gala Sushi Pizza">
   <h1>Суши и пицца с доставкой</h1>
   <p>Роллы, сеты, пицца, WOK и горячие блюда. Шахтинск, ежедневно с 11:00 до 23:30.</p>
-  <div class="badge">🚚 Доставка бесплатно от 6 000 ₸</div><br><button class="btn" id="toMenu" type="button">Смотреть меню</button>
+  <div class="badge">🚚 По Шахтинску доставка бесплатно от 6 000 ₸</div><br><button class="btn" id="toMenu" type="button">Смотреть меню</button>
 </section>
 
 <section id="menu">
@@ -141,7 +142,7 @@ input,textarea,select{font-size:16px;padding:12px}
 
 <script>
 // ====== НАСТРОЙКИ ЗАВЕДЕНИЯ — замените на реальные данные ======
-var ZONES=[["Шахтинск",600],["Новодолинка",1700],["Долинка",1700],["Шахан",3000],["Северка",1000],["ГРП",2000]],FREE=6000;
+var ZONES=[["Шахтинск",600,6000],["Новодолинка",1700,12000],["Долинка",1700,12000],["Шахан",3000,18000],["Северка",1000,10000],["ГРП",2000,15000],["Совхоз",2000,15000]],FREE=6000;
 var CFG={
   phone:"+77083666705", phoneShow:"+7 708 366 67 05", phone2:"+77004040878", phone2Show:"+7 700 404 08 78",
   hours:"Ежедневно, 11:00–23:30",
@@ -303,8 +304,8 @@ function fmt(n){return n.toLocaleString("ru-RU")+" "+CFG.currency}
 function toast(t){var el=$("toast");el.textContent=t;el.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(function(){el.style.display="none"},2200)}
 
 $("callTop").href=$("phone").href="tel:"+CFG.phone;
-$("phone").textContent=CFG.phoneShow;$("phone2").href="tel:"+CFG.phone2;$("phone2").textContent=CFG.phone2Show;$("addr2").textContent=CFG.address;$("hours").textContent=CFG.hours;$("deliv").innerHTML=ZONES.map(function(z){return '<div class="zr"><span>'+z[0]+'</span><b>'+fmt(z[1])+'</b></div>'}).join("")+'<div class="dnote">От '+fmt(FREE)+' — бесплатно</div><div class="sub">Сумма заказа без учёта доставки</div>';
-$("dsub").textContent="от "+fmt(Math.min.apply(null,ZONES.map(function(z){return z[1]})))+" · бесплатно от "+fmt(FREE);
+$("phone").textContent=CFG.phoneShow;$("phone2").href="tel:"+CFG.phone2;$("phone2").textContent=CFG.phone2Show;$("addr2").textContent=CFG.address;$("hours").textContent=CFG.hours;$("deliv").innerHTML=ZONES.map(function(z){return '<div class="zr"><span>'+z[0]+'<br><small style="color:var(--mut)">бесплатно от '+fmt(z[2])+'</small></span><b>'+fmt(z[1])+'</b></div>'}).join("")+'<div class="sub">Сумма заказа без учёта доставки</div>';
+$("dsub").textContent="от "+fmt(Math.min.apply(null,ZONES.map(function(z){return z[1]})))+" · бесплатно от "+fmt(Math.min.apply(null,ZONES.map(function(z){return z[2]})));
 
 function tabs(){var ord=MENU.map(function(m,i){return i}),di=MENU.map(function(m){return m.c}).indexOf("Напитки"),fi=MENU.map(function(m){return m.c}).indexOf("Фастфуд");if(di>-1&&fi>-1){ord.splice(di,1);ord.splice(ord.indexOf(fi)+1,0,di)}$("tabs").innerHTML=ord.map(function(i){var m=MENU[i];return '<button class="tab'+(i==cat?' on':'')+'" data-i="'+i+'">'+m.e+' '+m.c+'</button>'}).join("")}
 function grid(){var m=MENU[cat];$("grid").className="grid"+(m.c.indexOf("Пицца")===0?" pz":(m.c==="Закуски"||m.c==="Фастфуд")?" pz":(m.c==="Сеты"||m.c==="Комбо")?" st":m.c==="Напитки"?" dr":"");$("grid").innerHTML=m.items.map(function(it,i){var id=cat+"-"+i;
@@ -315,7 +316,7 @@ function render(){
  var sum=0,n=0;
  $("lines").innerHTML=ids.length?ids.map(function(k){var it=find(k),q=cart[k];sum+=it.p*q;n+=q;
   return '<div class="ci"><span>'+it.n+'<br><small style="color:var(--mut)">'+fmt(it.p)+'</small></span><span class="q"><button data-m="'+k+'">−</button><b>'+q+'</b><button data-p="'+k+'">+</button></span><b>'+fmt(it.p*q)+'</b></div>'}).join(""):'<p style="color:var(--mut)">Корзина пуста. Добавьте что-нибудь из меню 🙂</p>';
- var dv=($("type").value=="pickup"||!n||sum>=FREE)?0:ZONES[+$("zone").value][1];$("sum").textContent=fmt(sum+dv);$("dline").textContent=!n?"":$("type").value=="pickup"?"Самовывоз — бесплатно":(sum>=FREE?"Доставка: бесплатно 🎉":"Доставка: "+fmt(dv)+" · добавьте ещё "+fmt(FREE-sum)+" до бесплатной доставки");$("cnt").textContent=n;$("fbn").textContent=n;$("fbs").textContent=fmt(sum+dv);$("fb").classList.toggle("has",n>0);$("ups").innerHTML=n?upsHtml():"";save();return {ids:ids,sum:sum,dv:dv};
+ var zn=ZONES[+$("zone").value]||ZONES[0],FR=zn[2];var dv=($("type").value=="pickup"||!n||sum>=FR)?0:zn[1];$("sum").textContent=fmt(sum+dv);$("dline").textContent=!n?"":$("type").value=="pickup"?"Самовывоз — бесплатно":(sum>=FR?"Доставка: бесплатно 🎉":"Доставка: "+fmt(dv)+" · добавьте ещё "+fmt(FR-sum)+" до бесплатной доставки ("+zn[0]+")");$("cnt").textContent=n;$("fbn").textContent=n;$("fbs").textContent=fmt(sum+dv);$("fb").classList.toggle("has",n>0);$("ups").innerHTML=n?upsHtml():"";save();return {ids:ids,sum:sum,dv:dv};
 }
 var UPS=["Pepsi 1 л","Mirinda 1 л","Сок DaDa в ассортименте 1 л","Детский сок DaDa","Наггетсы с соусом спайси","Стрипсы 3 шт","Сырные палочки со сметаной","Картофель фри","Луковые кольца","Гренки чесночные","Картофельные дольки"];
 function upsHtml(){var o=[];UPS.forEach(function(n){for(var c=0;c<MENU.length;c++)for(var i=0;i<MENU[c].items.length;i++)if(MENU[c].items[i][0]===n){var it=MENU[c].items[i],id=c+"-"+i,q=cart[id]||0;o.push('<div class="uc"><div class="uh">'+(it[4]?'<img src="'+it[4]+'" alt="" loading="lazy">':MENU[c].e)+'</div><span>'+it[0]+'</span><button data-add="'+id+'">'+(q?'В корзине: '+q+' · ':'+ ')+fmt(it[2])+'</button></div>');return}});return o.length?'<h4>Добавьте к заказу</h4><div class="ur">'+o.join("")+'</div>':""}
