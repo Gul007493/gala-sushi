@@ -106,7 +106,7 @@ input,textarea,select{font-size:16px;padding:12px}
 
 <section class="promo"><button class="pb" id="promo" type="button" aria-label="Добавить Сет ноября в корзину"><img id="promoImg" src="images/set-noyabrya.jpg" alt="Сет ноября: сяке терияки, жареный с курицей, мини пепперони, фри"><span class="cta" id="promoCta">＋ Добавить в корзину <small>4 500 ₸</small></span></button><p class="pnote">Нажми на баннер, и сет сразу окажется в корзине</p></section>
 
-<section class="bd"><div class="bdc"><div class="bdi">🎂</div><div class="bdt2"><h2>Скидка 10% в день рождения</h2><p>Дарим именинникам 10% на заказ. Включи скидку и закажи как обычно.</p></div><button class="bdgo" id="bdgo" type="button">🎁 Включить скидку именинника</button></div></section>
+<section class="bd"><div class="bdc"><div class="bdi">🎂</div><div class="bdt2"><h2>Скидка 10% в день рождения</h2><p>Дарим именинникам 10% на заказ. Скидка на блюда, не суммируется с другими акциями.</p></div><button class="bdgo" id="bdgo" type="button">🎁 Включить скидку именинника</button></div></section>
 
 <section id="menu">
   <div class="tabs" id="tabs"></div>
@@ -138,7 +138,7 @@ input,textarea,select{font-size:16px;padding:12px}
     </form>
   </div>
   <div class="af">
-    <label class="bdt" id="bdt"><input type="checkbox" id="bdc"><span class="sw"></span><span><b>🎂 У меня день рождения</b><small>Скидка 10% на заказ. При получении покажи документ</small></span></label><div class="bdl" id="bdl"></div>
+    <label class="bdt" id="bdt"><input type="checkbox" id="bdc"><span class="sw"></span><span><b>🎂 У меня день рождения</b><small>Скидка 10% на блюда (доставка без скидки), не суммируется с акциями. Покажи документ при получении</small></span></label><div class="bdl" id="bdl"></div>
     <div id="dline" class="note" style="margin:0 0 8px"></div>
     <div class="tot"><span>Итого</span><span id="sum">0</span></div>
     <button class="btn" id="send">Оформить заказ</button>
@@ -329,6 +329,7 @@ function grid(){var m=MENU[cat];$("grid").className="grid"+(m.c.indexOf("Пиц�
  var W=isW(it[0]);return '<div class="item'+(it[4]?'':' np')+(W?' wg':'')+(it[1]&&!W?' has" data-d="'+id:'')+'"><div class="ph">'+(it[4]?'<img src="'+it[4]+'" alt="'+it[0].replace(/"/g,"")+'" loading="lazy">':m.e)+'</div><div class="ib"><h3>'+it[0]+'</h3><small>'+it[1]+'</small>'+(it[1]?'<span class="more">Состав ›</span>':'')+'<div class="row"><span class="price">'+(it[3]?'<span class="old">'+fmt(it[3])+'</span>':'')+fmt(it[2])+'</span>'+(W?'<button class="btn" data-wopen="1">Выбрать</button>':'<button class="btn" data-add="'+id+'">В корзину</button>')+'</div></div></div>'}).join("")}
 function find(id){var p=id.split("-");var it=MENU[p[0]].items[p[1]];return {n:it[0],p:it[2]}}
 function render(){
+ enforcePromo();
  var ids=Object.keys(cart).filter(function(k){return cart[k]>0&&MENU[k.split("-")[0]]&&MENU[k.split("-")[0]].items[k.split("-")[1]]});
  var sum=0,n=0;
  $("lines").innerHTML=ids.length?ids.map(function(k){var it=find(k),q=cart[k];sum+=it.p*q;n+=q;
@@ -336,6 +337,12 @@ function render(){
  var zn=ZONES[+$("zone").value]||ZONES[0],FR=zn[2];var dv=($("type").value=="pickup"||!n||sum>=FR)?0:zn[1];var disc=(BD&&n)?Math.round(sum*0.1):0;$("bdl").style.display=disc?"block":"none";$("bdl").textContent=disc?"🎂 Скидка именинника −10%: −"+fmt(disc):"";$("sum").textContent=fmt(sum-disc+dv);$("dline").textContent=!n?"":$("type").value=="pickup"?"Самовывоз — бесплатно":(sum>=FR?"Доставка: бесплатно 🎉":"Доставка: "+fmt(dv)+" · добавьте ещё "+fmt(FR-sum)+" до бесплатной доставки ("+zn[0]+")");$("cnt").textContent=n;$("fbn").textContent=n;$("fbs").textContent=fmt(sum-disc+dv);$("fb").classList.toggle("has",n>0);$("ups").innerHTML=n?upsHtml():"";updPromo();save();return {ids:ids,sum:sum,dv:dv,disc:disc};
 }
 var BD=false;
+function hitId(){for(var c=0;c<MENU.length;c++)for(var i=0;i<MENU[c].items.length;i++)if(MENU[c].items[i][0]==="Хит продаж 40 шт")return c+"-"+i;return null}
+var PREV={a:0,h:0,b:0},PNAME={a:"Сет ноября",h:"Хит продаж",b:"Скидка именинника"};
+function enforcePromo(){var pa=promoId(),ph=hitId(),cur={a:pa&&cart[pa]>0?1:0,h:ph&&cart[ph]>0?1:0,b:BD?1:0},act=Object.keys(cur).filter(function(k){return cur[k]});if(act.length<2){PREV=cur;return}
+ var nw=act.filter(function(k){return !PREV[k]}),win=nw.length?nw[nw.length-1]:act[0];
+ if(win!=="a"&&cur.a){delete cart[pa]}if(win!=="h"&&cur.h){delete cart[ph]}if(win!=="b"&&cur.b){BD=false;$("bdc").checked=false;var g=$("bdgo");g.classList.remove("on");g.textContent="🎁 Включить скидку именинника"}
+ PREV={a:win==="a"?1:0,h:win==="h"?1:0,b:win==="b"?1:0};try{toast("Акции не суммируются: оставили «"+PNAME[win]+"»")}catch(e){}}
 function bdFx(x,y){try{if(window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches)return;var C=["#e03020","#ffb347","#2fa84f","#4aa3ff","#ff6a9a","#fff"];for(var i=0;i<30;i++){var p=document.createElement("i");p.className="bdp";p.style.left=x+"px";p.style.top=y+"px";p.style.background=C[i%6];document.body.appendChild(p);var a=Math.random()*Math.PI*2,d=70+Math.random()*130;p.animate([{transform:"translate(0,0) rotate(0)",opacity:1},{transform:"translate("+Math.cos(a)*d+"px,"+(Math.sin(a)*d+90)+"px) rotate("+(Math.random()*720)+"deg)",opacity:0}],{duration:900+Math.random()*500,easing:"cubic-bezier(.2,.7,.4,1)"}).onfinish=(function(el){return function(){el.remove()}})(p)}}catch(e){}}
 function setBD(v,ev){BD=!!v;$("bdc").checked=BD;var b=$("bdgo");b.classList.toggle("on",BD);b.textContent=BD?"✓ Скидка 10% включена":"🎁 Включить скидку именинника";render();if(BD){var r=ev&&ev.target&&ev.target.getBoundingClientRect?ev.target.getBoundingClientRect():null;bdFx(r?r.left+r.width/2:innerWidth/2,r?r.top+r.height/2:innerHeight/3)}}
 $("bdgo").onclick=function(e){if(!BD){setBD(true,e);toast("Скидка 10% именинника включена 🎂")}else{setBD(false)}};
